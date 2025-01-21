@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'com.google.protobuf' version '0.9.4' // For generating gRPC code from proto files
+}
+
+def grpcVersion = '1.68.1' //Version
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.grpc:grpc-api:${grpcVersion}"
+    implementation "io.grpc:grpc-netty:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-xds:${grpcVersion}"
+    implementation 'com.google.protobuf:protobuf-java:3.24.0'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    testImplementation 'junit:junit:4.13.2'
+}
+
+// Protobuf plugin configuration
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.24.3"
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:1.57.2"
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                grpc {}
+            }
+        }
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
