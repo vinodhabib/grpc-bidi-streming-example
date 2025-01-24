@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option java_package = "com.example.healthCheck";
+option java_outer_classname = "HelloHealthCheckProto";
+
+import "google/protobuf/empty.proto";
+
+package health;
+
+// The greeting service definition.
+service HealthCheck {
+  rpc SayHello (HelloRequest) returns (HelloReply);
+}
+
+// Service for health checking.
+service Health {
+  rpc Check (google.protobuf.Empty) returns (HealthStatus);
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greeting.
+message HelloReply {
+  string message = 1;
+}
+
+// Health status message.
+message HealthStatus {
+  string status = 1; // "SERVING" or "NOT_SERVING"
+}
